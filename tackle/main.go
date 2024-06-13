@@ -8,11 +8,11 @@ import (
 	"strings"
 	"unicode"
 )
+
 type Task struct {
-	title string
+	title       string
 	description string
 }
-
 
 type Epic struct {
 	title string
@@ -25,7 +25,7 @@ type Project struct {
 }
 
 func main() {
-  fmt.Println("started..")
+	fmt.Println("started..")
 	const FILENAME = "todo.md"
 
 	file, err := os.Open(FILENAME)
@@ -37,14 +37,14 @@ func main() {
 	scanner := bufio.NewScanner(file)
 
 	if err := scanner.Err(); err != nil {
-    log.Fatal(err)
+		log.Fatal(err)
 		os.Exit(1)
 	}
 
-  project := Project{FILENAME, []Epic{}}
-  currentEpic := 0;
-  currentTask := 1;
-  project.epics = append(project.epics, Epic{fmt.Sprintf("%v", currentEpic), []Task{} })
+	project := Project{FILENAME, []Epic{}}
+	currentEpic := 0
+	currentTask := 1
+	project.epics = append(project.epics, Epic{fmt.Sprintf("%v", currentEpic), []Task{}})
 
 	for scanner.Scan() {
 		line := scanner.Text()
@@ -52,15 +52,15 @@ func main() {
 
 		if len(trimmed) > 0 {
 			if unicode.IsDigit(rune(line[0])) {
-        currentEpic++
-        currentTask = 1
-        project.epics = append(project.epics, Epic{fmt.Sprintf("%v", currentEpic), []Task{} })
-        project.epics[currentEpic].title = trimmed
+				currentEpic++
+				currentTask = 1
+				project.epics = append(project.epics, Epic{fmt.Sprintf("%v", currentEpic), []Task{}})
+				project.epics[currentEpic].title = trimmed
 			}
 			if rune(line[0]) == 32 {
-  
-        project.epics[currentEpic].tasks = append(project.epics[currentEpic].tasks, Task{fmt.Sprintf("%v", currentTask), trimmed})
-        currentTask++
+
+				project.epics[currentEpic].tasks = append(project.epics[currentEpic].tasks, Task{fmt.Sprintf("%v", currentTask), trimmed})
+				currentTask++
 				fmt.Println("[task] " + trimmed)
 			}
 
@@ -68,16 +68,7 @@ func main() {
 			fmt.Println("[empty]")
 		}
 	}
-  
 
-
-  
-
-
- 
-
-
-  fmt.Println(project)
-
+	fmt.Println(project)
 
 }
