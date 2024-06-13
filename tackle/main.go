@@ -4,6 +4,8 @@ import (
   "bufio"
   "fmt"
   "os"
+  "strings"
+  "unicode"
 )
 
 
@@ -19,8 +21,23 @@ func main() {
 
     scanner := bufio.NewScanner(file)
     for scanner.Scan() {
+        line := scanner.Text()
+        trimmed := strings.TrimSpace(line)
       
-        fmt.Println(scanner.Text())
+        if len(trimmed) > 0 {
+     
+    
+    
+          if unicode.IsDigit(rune(line[0])) {
+            fmt.Println("[epic] "+ trimmed)
+          }
+          if rune(line[0]) == 32 {
+            fmt.Println("[task] "+ trimmed)
+          }
+
+        } else {
+          fmt.Println("[empty]")
+        }
     }
 
     if err := scanner.Err(); err != nil {
