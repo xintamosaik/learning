@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" style="background-color: black; color: white; font-size: 100%; font-family: sans-serif;">
+	<head>
+		<title>tackle</title>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<style>
+			* { box-sizing: border-box; }
+			.flex-column-gap {
+				display:flex;
+				flex-direction: column;
+				gap: 10px;
+			}
+		</style>	
+	</head>
+	<body style="margin:0; display:flex; flex-direction: column;">
+		<header style="align-self: stretch; justify-self: stretch; color: cyan;">HOME</header>
+		<main style="border: 1px solid magenta; width: min(100%,900px); align-self: center;">
+			<section class="flex-column-gap">
+				<h1>TESTSUITE</h1>	
+				<!-- label for="test">test<input type="text" name="test" value="test"></label -->
+				<h2>INPUT</h2>
+				<label for="test"><h3>test</h3><input type="text" name="test" value="test"></label>
+
+				<label for="test"><h3>test</h3><input type="text" name="test" value="test"></label>
+
+
+				<label for="test">
+					<h2>OUTPUT<h2>
+					
+					<output name="tests" for="tests" style="border: 1px solid magenta"></output>
+				</label>
+				
+				<script>
+					const output = document.querySelector('output');
+					output.innerHTML = 'test';
+				</script>
+
+
+			</section>
+		</main>
+	</body>
+</html>
+
