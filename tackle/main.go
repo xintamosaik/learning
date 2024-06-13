@@ -41,15 +41,26 @@ func main() {
 		os.Exit(1)
 	}
 
+  project := Project{FILENAME, []Epic{}}
+  currentEpic := 0;
+  currentTask := 1;
+  project.epics = append(project.epics, Epic{fmt.Sprintf("%v", currentEpic), []Task{} })
+
 	for scanner.Scan() {
 		line := scanner.Text()
 		trimmed := strings.TrimSpace(line)
 
 		if len(trimmed) > 0 {
 			if unicode.IsDigit(rune(line[0])) {
-				fmt.Println("[epic] " + trimmed)
+        currentEpic++
+        currentTask = 1
+        project.epics = append(project.epics, Epic{fmt.Sprintf("%v", currentEpic), []Task{} })
+        project.epics[currentEpic].title = trimmed
 			}
 			if rune(line[0]) == 32 {
+  
+        project.epics[currentEpic].tasks = append(project.epics[currentEpic].tasks, Task{fmt.Sprintf("%v", currentTask), trimmed})
+        currentTask++
 				fmt.Println("[task] " + trimmed)
 			}
 
@@ -59,25 +70,14 @@ func main() {
 	}
   
 
-  tasks := []Task{Task{"task0", "the first zeroes task"}}
-  tasks = append(tasks, Task{"task1", "the first example task"})
-  tasks = append(tasks, Task{"task2", "the second example task"})
-  fmt.Println(tasks)
+
   
 
 
-  epics := []Epic{}
-  epics = append(epics, Epic{"epic1", tasks})
-  epics = append(epics, Epic{"epic2", tasks})
-  fmt.Println(epics)
-
  
-  projects := []Project{}
-  projects = append(projects ,Project{"project1", epics})
-  projects = append(projects ,Project{"project1", epics})
-  fmt.Println(projects[0].title)
-  fmt.Println(projects[0].epics[0].title)
 
-  fmt.Println(projects[0].epics[0].tasks[0].title)
+
+  fmt.Println(project)
+
 
 }
