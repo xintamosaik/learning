@@ -58,23 +58,26 @@ func main() {
 		}
 	}
   
-  task := Task{"task1", "the first example task"}
-  tasks := []Task{task}
+
+  tasks := []Task{Task{"task0", "the first zeroes task"}}
+  tasks = append(tasks, Task{"task1", "the first example task"})
   tasks = append(tasks, Task{"task2", "the second example task"})
   fmt.Println(tasks)
   
 
-  epic := Epic{"epic1", tasks}
-  epics := []Epic{epic}
+
+  epics := []Epic{}
+  epics = append(epics, Epic{"epic1", tasks})
   epics = append(epics, Epic{"epic2", tasks})
   fmt.Println(epics)
 
-  project := Project{"project1", epics}
-  projects := []Project{project}
+ 
+  projects := []Project{}
+  projects = append(projects ,Project{"project1", epics})
   projects = append(projects ,Project{"project1", epics})
   fmt.Println(projects[0].title)
   fmt.Println(projects[0].epics[0].title)
 
-
+  fmt.Println(projects[0].epics[0].tasks[0].title)
 
 }
