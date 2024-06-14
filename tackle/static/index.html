@@ -43,7 +43,7 @@
 							mode: "cors", 
 							
 						}
-						const response = await fetch("http://localhost:8080", config);
+						const response = await fetch("http://localhost:5500", config);
 						const movies = await response.json();
 						console.log(movies);
 					}

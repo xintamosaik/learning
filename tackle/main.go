@@ -2,11 +2,12 @@ package main
 
 import (
     "fmt"
+    "log"
     "net/http"
+    "path/filepath"
 )
 
-// htmlResponse is a function that returns an HTML string.
-// You can modify this function to generate dynamic HTML content.
+// htmlResponse is a function that returns an HTML string for dynamic content.
 func htmlResponse() string {
     return `
     <div id="dynamic-content">
@@ -29,13 +30,19 @@ func handleHTMX(w http.ResponseWriter, r *http.Request) {
     fmt.Fprint(w, html)
 }
 
-// handleLoadMore handles the POST request to load more content.
+// handleHTMX serves the HTML file.
+func handleBase(w http.ResponseWriter, r *http.Request) {
+    http.ServeFile(w, r, filepath.Join("static", "index.html"))
+}
+
+// handleLoadMore handles the POST request to load more content dynamically.
 func handleLoadMore(w http.ResponseWriter, r *http.Request) {
+    log.Printf("Request Method: %s", r.Method)
+    log.Printf("Request URL: %s", r.URL.Path)
+    log.Printf("Request Headers: %v", r.Header)
+
     if r.Method == http.MethodPost {
-        // Set the content type to HTML
         w.Header().Set("Content-Type", "text/html")
-        
-        // Example dynamic content for demonstration
         moreContent := `
         <div id="dynamic-content">
             <h1>More Content Loaded!</h1>
@@ -43,24 +50,25 @@ func handleLoadMore(w http.ResponseWriter, r *http.Request) {
             <button hx-post="/load-more" hx-swap="outerHTML">Load Even More</button>
         </div>
         `
-        
-        // Write the moreContent string to the response writer
         fmt.Fprint(w, moreContent)
     } else {
-        // If the method is not POST, return a 405 Method Not Allowed
         w.WriteHeader(http.StatusMethodNotAllowed)
         fmt.Fprint(w, "Method Not Allowed")
     }
 }
 
 func main() {
-    // Register the handleHTMX function as the handler for the root path
-    http.HandleFunc("/", handleHTMX)
+    // Serve the base HTML document
+    http.HandleFunc("/some", handleHTMX)
+
+	http.HandleFunc("/", handleBase)
+
+    // Serve dynamic content via HTMX
     http.HandleFunc("/load-more", handleLoadMore)
 
     // Start the server on port 8080
-    fmt.Println("Starting server on :8080")
+    log.Println("Starting server on :8080")
     if err := http.ListenAndServe(":8080", nil); err != nil {
-        fmt.Println("Server failed:", err)
+        log.Fatalf("Server failed: %v", err)
     }
 }
