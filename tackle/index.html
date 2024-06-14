@@ -47,10 +47,18 @@
 						const movies = await response.json();
 						console.log(movies);
 					}
-					logMovies()					
+					// logMovies()					
 				</script>
 
 
+			</section>
+			<section>
+				<script src="https://unpkg.com/htmx.org@1.9.12"></script>
+				<!-- have a button POST a click via AJAX -->
+				<button hx-post="load-more" hx-swap="outerHTML">
+					Click Me
+				</button>
+				<button hx-post="/load-more" hx-swap="outerHTML">Click Me</button>
 			</section>
 		</main>
 	</body>

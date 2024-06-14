@@ -1,98 +1,66 @@
 package main
 
 import (
-	"bufio"
-	"encoding/json"
-	"fmt"
-	"log"
-	"net/http"
-	"os"
-	"strings"
-	"unicode"
-
+    "fmt"
+    "net/http"
 )
 
-type Task struct {
-	Title       string `json:"title"`
-	Description string `json:"description"`
+// htmlResponse is a function that returns an HTML string.
+// You can modify this function to generate dynamic HTML content.
+func htmlResponse() string {
+    return `
+    <div id="dynamic-content">
+        <h1>Hello, HTMX!</h1>
+        <p>This content was loaded dynamically from a Go server.</p>
+        <button hx-post="/load-more" hx-swap="outerHTML">Click Me</button>
+    </div>
+    `
 }
 
-type Epic struct {
-	Title string `json:"title"`
-	Tasks []Task `json:"tasks"`
+// handleHTMX is the handler function that sends the HTML response.
+func handleHTMX(w http.ResponseWriter, r *http.Request) {
+    // Set the content type to HTML
+    w.Header().Set("Content-Type", "text/html")
+    
+    // Call the htmlResponse function to get the HTML string
+    html := htmlResponse()
+    
+    // Write the HTML string to the response writer
+    fmt.Fprint(w, html)
 }
 
-type Project struct {
-	Title string `json:"title"`
-	Epics []Epic `json:"epics"`
+// handleLoadMore handles the POST request to load more content.
+func handleLoadMore(w http.ResponseWriter, r *http.Request) {
+    if r.Method == http.MethodPost {
+        // Set the content type to HTML
+        w.Header().Set("Content-Type", "text/html")
+        
+        // Example dynamic content for demonstration
+        moreContent := `
+        <div id="dynamic-content">
+            <h1>More Content Loaded!</h1>
+            <p>This is more content loaded via HTMX POST request!</p>
+            <button hx-post="/load-more" hx-swap="outerHTML">Load Even More</button>
+        </div>
+        `
+        
+        // Write the moreContent string to the response writer
+        fmt.Fprint(w, moreContent)
+    } else {
+        // If the method is not POST, return a 405 Method Not Allowed
+        w.WriteHeader(http.StatusMethodNotAllowed)
+        fmt.Fprint(w, "Method Not Allowed")
+    }
 }
 
 func main() {
-	fmt.Println("started..")
-	
-  h1 := func(w http.ResponseWriter, _ *http.Request) {
+    // Register the handleHTMX function as the handler for the root path
+    http.HandleFunc("/", handleHTMX)
+    http.HandleFunc("/load-more", handleLoadMore)
 
-
-    const FILENAME = "todo.md"
-
-    file, err := os.Open(FILENAME)
-    if err != nil {
-      fmt.Println("Error:", err)
-      os.Exit(1)
+    // Start the server on port 8080
+    fmt.Println("Starting server on :8080")
+    if err := http.ListenAndServe(":8080", nil); err != nil {
+        fmt.Println("Server failed:", err)
     }
-
-    scanner := bufio.NewScanner(file)
-
-    if err := scanner.Err(); err != nil {
-      log.Fatal(err)
-      os.Exit(1)
-    }
-
-    project := Project{FILENAME, []Epic{}}
-    currentEpic := 0
-    currentTask := 1
-    project.Epics = append(project.Epics, Epic{fmt.Sprintf("%v", currentEpic), []Task{}})
-
-    for scanner.Scan() {
-      line := scanner.Text()
-      trimmed := strings.TrimSpace(line)
-
-      if len(trimmed) > 0 {
-        if unicode.IsDigit(rune(line[0])) {
-          currentEpic++
-          currentTask = 1
-          project.Epics = append(project.Epics, Epic{fmt.Sprintf("%v", currentEpic), []Task{}})
-          project.Epics[currentEpic].Title = trimmed
-        }
-        if rune(line[0]) == 32 {
-
-          project.Epics[currentEpic].Tasks = append(project.Epics[currentEpic].Tasks, Task{fmt.Sprintf("%v", currentTask), trimmed})
-          currentTask++
-        }
-
-      }
-    }
-
-    jsonData, err := json.Marshal(project)
-    if err != nil {
-      fmt.Printf("could not marshal json: %s\n", err)
-      return
-    }
-    
-    w.Header().Set("Access-Control-Allow-Origin", "*")
-    //w.Header().Set("Content-Type", "application/json")
-  
-   
-		w.WriteHeader(http.StatusOK)
-    w.Write(jsonData)
-    // json.NewEncoder(w).Encode(project)
-	
-    
-	}
-
-
-	http.HandleFunc("/", h1)
-
-
-	log.Fatal(http.ListenAndServe(":8080", nil))
 }
