@@ -33,7 +33,21 @@
 				
 				<script>
 					const output = document.querySelector('output');
+					
 					output.innerHTML = 'test';
+					
+					async function logMovies() {
+						console.log("fetching")
+						const config = { 
+							method: "POST", 
+							mode: "cors", 
+							
+						}
+						const response = await fetch("http://localhost:8080", config);
+						const movies = await response.json();
+						console.log(movies);
+					}
+					logMovies()					
 				</script>
 
 
