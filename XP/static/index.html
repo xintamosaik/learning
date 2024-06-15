@@ -5,32 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="/index.css">
+    <script src="https://unpkg.com/htmx.org@1.9.12"></script>
 </head>
 <body>
-    <link rel="stylesheet" href="/nav.css">
+    <header hx-post="/header" hx-swap="innerHTML" hx-trigger="load"></header>
     
-    <header>
-      
-        <nav>
-            <ul>
-                <li><a href="/backlog">back</a></li>
-                <li><a href="/home">home</a></li>
-            </ul>
-        </nav>
-        <section>
-            <span>project: first</span>
-            <span>|</span>
-            <span>logged: test-user</span>    
-        </section>
-        
-    </header>
     <main>
         <h1>XP</h1>
         <p>This is the start of a small website, that wants to help small teams to work.</p>
-        
+     
+        <!-- have a button POST a click via AJAX -->
+
     </main>
-    <footer>
-        end of website
-    </footer>
+
+    <footer hx-post="/footer" hx-swap="innerHTML" hx-trigger="load"></footer>
 </body>
 </html>

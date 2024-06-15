@@ -6,29 +6,15 @@
     <title>Document</title>
 
     <link rel="stylesheet" href="/index.css">
+    <script src="https://unpkg.com/htmx.org@1.9.12"></script>
 </head>
 <body>
-    <link rel="stylesheet" href="/nav.css">
-    <header>
-      
-        <nav>
-            <li><a href="/back">back</a></li>
-            <li><a href="/home">home</a></li>
-        </nav>
-        <section>
-            <span>project: first</span>
-            <span>|</span>
-            <span>logged: test-user</span>    
-        </section>
-        
-    </header>
+    <header hx-post="/header" hx-swap="innerHTML" hx-trigger="load"></header>
     <main>
         <h1>Backlog</h1>
 
         
     </main>
-    <footer>
-        end of website
-    </footer>
+    <footer hx-post="/footer" hx-swap="innerHTML" hx-trigger="load"></footer>
 </body>
 </html>
