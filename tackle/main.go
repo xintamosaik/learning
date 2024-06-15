@@ -59,9 +59,13 @@ func handleLoadMore(w http.ResponseWriter, r *http.Request) {
 
 func main() {
     // Serve the base HTML document
-    http.HandleFunc("/some", handleHTMX)
+    http.HandleFunc("/clicked", handleHTMX)
 
 	http.HandleFunc("/", handleBase)
+	http.HandleFunc("/home", handleHTMX)
+	http.HandleFunc("/homepage", handleHTMX)
+
+	http.HandleFunc("/blog", handleHTMX)
 
     // Serve dynamic content via HTMX
     http.HandleFunc("/load-more", handleLoadMore)
