@@ -1,0 +1,66 @@
+
+    <header style="align-self: stretch; justify-self: stretch; color: cyan;">
+        <div hx-boost="true">
+            <a href="/home">HOME</a>
+            <a href="/blog">BLOG</a>
+
+        </div>
+    </header>
+    <main style="border: 1px solid magenta; width: min(100%,900px); align-self: center;">
+        <section class="flex-column-gap">
+            <h1>TESTSUITE</h1>
+            <!-- label for="test">test<input type="text" name="test" value="test"></label -->
+            <h2>INPUT</h2>
+            <label for="test">
+                <h3>test</h3><input type="text" name="test" value="test">
+            </label>
+
+            <label for="test">
+                <h3>test</h3><input type="text" name="test" value="test">
+            </label>
+
+
+            <label for="test">
+                <h2>OUTPUT<h2>
+
+                        <output name="tests" id="htmx-test" for="tests" style="border: 1px solid magenta"></output>
+            </label>
+            <div hx-confirm="Are you sure?">
+                <button hx-delete="/account">
+                    Delete My Account
+                </button>
+                <button hx-put="/account">
+                    Update My Account
+                </button>
+                <button hx-confirm="unset" hx-get="/">
+                    Cancel
+                </button>
+            </div>
+
+            <button hx-post="/clicked" hx-trigger="click" hx-target="#htmx-test" hx-swap="outerHTML">
+                Click Me!
+            </button>
+
+            <script>
+                const output = document.querySelector('output');
+
+                output.innerHTML = 'test';
+
+                async function logMovies() {
+                    console.log("fetching")
+                    const config = {
+                        method: "POST",
+                        mode: "cors",
+
+                    }
+                    const response = await fetch("http://localhost:5500", config);
+                    const movies = await response.json();
+                    console.log(movies);
+                }
+                // logMovies()					
+            </script>
+
+
+        </section>
+    </main>
+

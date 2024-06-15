@@ -35,6 +35,15 @@ func handleBase(w http.ResponseWriter, r *http.Request) {
     http.ServeFile(w, r, filepath.Join("static", "index.html"))
 }
 
+// handleHome serves the HTML file.
+func handleHome(w http.ResponseWriter, r *http.Request) {
+    http.ServeFile(w, r, filepath.Join("static", "home.html"))
+}
+// handleBlog serves the HTML file.
+func handleBlog(w http.ResponseWriter, r *http.Request) {
+    http.ServeFile(w, r, filepath.Join("static", "blog.html"))
+}
+
 // handleLoadMore handles the POST request to load more content dynamically.
 func handleLoadMore(w http.ResponseWriter, r *http.Request) {
     log.Printf("Request Method: %s", r.Method)
@@ -56,16 +65,41 @@ func handleLoadMore(w http.ResponseWriter, r *http.Request) {
         fmt.Fprint(w, "Method Not Allowed")
     }
 }
+func handleGet(w http.ResponseWriter, r *http.Request) {
+    fmt.Println("WE ARE IN GET")
+}
+
+func routeRequest(w http.ResponseWriter, r *http.Request) {
+	fmt.Println(r.Method);
+    if r.Method == "GET" {
+        handleGet( w, r)
+    }
+    if r.Method == "POST" {
+        fmt.Println("WE ARE IN POST")
+    }
+    if r.Method != "GET" && r.Method != "POST" {
+        fmt.Println("WE ARE NEITHER")
+    }
+
+
+	for name, headers := range r.Header {
+		for _, h := range headers {
+			fmt.Printf("%v: %v\n", name, h)
+		}
+	}
+
+	http.ServeFile(w, r, filepath.Join("static", "index.html"))
+}
 
 func main() {
     // Serve the base HTML document
     http.HandleFunc("/clicked", handleHTMX)
 
-	http.HandleFunc("/", handleBase)
-	http.HandleFunc("/home", handleHTMX)
-	http.HandleFunc("/homepage", handleHTMX)
+	http.HandleFunc("/", routeRequest)
+	http.HandleFunc("/home", handleHome)
+	http.HandleFunc("/homepage", handleHome)
 
-	http.HandleFunc("/blog", handleHTMX)
+	http.HandleFunc("/blog", handleBlog)
 
     // Serve dynamic content via HTMX
     http.HandleFunc("/load-more", handleLoadMore)
