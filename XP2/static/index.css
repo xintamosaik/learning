@@ -1,0 +1,23 @@
+html {
+    background-color:midnightblue;
+    color:white;
+    font-size: 100%;
+    font-family: sans-serif;
+    display:flex;
+    justify-content: center;
+
+}
+
+body {
+    margin:0;
+    background-color: black;
+    width: min(100%, 800px);
+    min-height: 100vh;
+    display:flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+header, footer {
+    padding: 0.5ch;
+}
