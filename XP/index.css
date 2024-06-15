@@ -1,0 +1,15 @@
+html {
+    background-color:midnightblue;
+    color:white;
+    font-size: 100%;
+    font-family: sans-serif;
+    display:flex;
+    justify-content: center;
+
+}
+body {
+    margin:0;
+    background-color: black;
+    max-width: 700px;
+    
+}
