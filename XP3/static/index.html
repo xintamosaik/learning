@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+       html {
+            background-color:midnightblue;
+            color:white;
+            font-size: 100%;
+            font-family: sans-serif;
+            display:flex;
+            justify-content: center;
+
+        }
+
+        body {
+            margin:0;
+            background-color: black;
+            width: min(100%, 800px);
+            min-height: 100vh;
+            display:flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        header, footer, main {
+            padding: 1ch;
+        }
+
+    </style>
+    <script src="https://unpkg.com/htmx.org@1.9.12"></script>
+</head>
+<body>
+    <style>
+        .navigation-item { 
+            margin: 0;
+            list-style-type: none;
+            display: inline;
+        }
+    </style>
+    
+    <header style="display: flex; gap: 1ch; justify-content: space-between; background-color: midnightblue;">
+        <nav style="display: inline;">
+            <ul style="padding-inline-start: 0; margin-block-end: 0; margin-block-start: 0;">
+            <li class="navigation-item">
+                <a hx-post="/home" hx-target="main">home</a>
+            </li>
+            <li class="navigation-item">
+                <a hx-post="/backlog" hx-target="main">backlog</a>
+            </li>
+        </ul>
+       
+        </nav>
+        <section>
+            <span>project: first</span>
+            <span>|</span>
+            <span>logged: test-user</span>    
+        </section>
+    </header>
+    
+    <main style="flex-grow: 1;">
+        <h1>XP</h1>
+        <p>This is the start of a small website, that wants to help small teams to work.</p>
+     
+        <!-- have a button POST a click via AJAX -->
+
+    </main>
+    <footer style="background-color: midnightblue;">
+        <span>end of website</span>
+    </footer>
+</body>
+</html>
