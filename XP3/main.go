@@ -2,7 +2,7 @@ package main
 
 import (
 	"path/filepath"
-	"fmt"
+
 	"log"
 	"net/http"
 )
@@ -11,7 +11,7 @@ func backlog(w http.ResponseWriter, r *http.Request) {
 	http.ServeFile(w, r, filepath.Join("content", "backlog.html"))
 }
 func home(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintln(w, "home")
+	http.ServeFile(w, r, filepath.Join("content", "home.html"))
 }
 func main() {
 
