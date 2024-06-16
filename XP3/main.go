@@ -10,11 +10,12 @@ import (
 func backlog(w http.ResponseWriter, r *http.Request) {
 	http.ServeFile(w, r, filepath.Join("content", "backlog.html"))
 }
+
 func home(w http.ResponseWriter, r *http.Request) {
 	http.ServeFile(w, r, filepath.Join("content", "home.html"))
 }
-func main() {
 
+func main() {
 	mux := http.NewServeMux()
 
 	// basically ./static/index.html
